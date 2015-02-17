@@ -1,13 +1,22 @@
+"""hippo
+
+Usage:
+  hippo.py [N]
+  hippo.py add <description>
+  hippo.py remove <id>
+  hippo.py list
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+
+"""
+from docopt import docopt
+
 import time
 
 from persist import Persister
 import core
-
-#  - add item
-#  - remove item
-#  - I guess list items as well
-#  - get me n items for review:
-#  - I guess we need another command for when dependencies are not met, something like "put item on hold", or "temporarily skip"
 
 # the "get me n items for review" command uses a spaced repetition scheduler
 # based (loosely) on the SM-2 algorithm
@@ -45,3 +54,18 @@ class Conductor:
 
     def review(self, n):
         print(self.persister.get_items())
+
+
+
+if __name__ == '__main__':
+    args = docopt(__doc__, version='hippo 0.1')
+    cond = Conductor()
+
+    if args['add']:
+        cond.add_item(args['<description>'])
+    elif args['remove']:
+        cond.remove_item(args['<id>'])
+    elif args['list']:
+        cond.list_items()
+    else:
+        cond.review(args['N'])
