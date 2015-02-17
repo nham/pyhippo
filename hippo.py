@@ -1,7 +1,7 @@
 """hippo
 
 Usage:
-  hippo.py [N]
+  hippo.py [--N=<n>]
   hippo.py add <description>
   hippo.py edit <id> <description>
   hippo.py remove <id>
@@ -52,19 +52,20 @@ class Conductor:
         self.persister.remove_item(item_id)
         print("Item {} has been removed".format(item_id))
 
-
     def list_items(self, pattern=None):
-        print(self.persister.get_items())
+        for item in self.persister.get_items():
+            print(core.list_display_item(item))
 
     def review(self, n):
-        for item in self.persister.get_items():
-            print("{} : {}".format(item['id'], item['desc']))
+        print("Reviewing {} items".format(n))
 
 
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='hippo 0.1')
     cond = Conductor()
+
+    default_review_num = 20
 
     if args['add']:
         cond.add_item(args['<description>'])
@@ -75,4 +76,7 @@ if __name__ == '__main__':
     elif args['list']:
         cond.list_items()
     else:
-        cond.review(args['N'])
+        if args['--N'] is not None:
+            cond.review(args['--N'])
+        else:
+            cond.review(default_review_num)

@@ -46,3 +46,5 @@ def assess_item(item, fam):
 
     return item
 
+def list_display_item(item):
+    return "{:3} : {}".format(item['id'], item['desc'])
