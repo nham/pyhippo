@@ -57,7 +57,8 @@ class Conductor:
         print(self.persister.get_items())
 
     def review(self, n):
-        print(self.persister.get_items())
+        for item in self.persister.get_items():
+            print("{} : {}".format(item['id'], item['desc']))
 
 
 
