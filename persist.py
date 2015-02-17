@@ -32,6 +32,11 @@ class Persister:
         self.conn.commit()
         return self.cur.lastrowid
 
+    def change_item_desc(self, item_id, desc):
+        sql = """UPDATE items SET desc=? WHERE id=?"""
+        self.cur.execute(sql, (desc, item_id))
+        self.conn.commit()
+
     def remove_item(self, item_id):
         sql = """DELETE FROM items WHERE id=?"""
         self.cur.execute(sql, (item_id,))

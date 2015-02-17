@@ -3,6 +3,7 @@
 Usage:
   hippo.py [N]
   hippo.py add <description>
+  hippo.py edit <id> <description>
   hippo.py remove <id>
   hippo.py list
 
@@ -43,6 +44,9 @@ class Conductor:
         new_id = self.persister.add_item(item)
         print("Item {} has been added".format(new_id))
 
+    def edit_item(self, item_id, desc):
+        self.persister.change_item_desc(item_id, desc)
+        print("Item {}'s description has been updated".format(item_id))
 
     def remove_item(self, item_id):
         self.persister.remove_item(item_id)
@@ -63,6 +67,8 @@ if __name__ == '__main__':
 
     if args['add']:
         cond.add_item(args['<description>'])
+    elif args['edit']:
+        cond.edit_item(args['<id>'], args['<description>'])
     elif args['remove']:
         cond.remove_item(args['<id>'])
     elif args['list']:
