@@ -48,3 +48,13 @@ def assess_item(item, fam):
 
 def list_display_item(item):
     return "{:3} : {}".format(item['id'], item['desc'])
+
+
+def review_filter_items(items, cur_time):
+    def needs_reviewing(item):
+        return cur_time - item['last_reviewed'] > (item['iri'] * 86400)
+
+    return filter(needs_reviewing, items)
+
+def review_item_prompt():
+    return "0-5 or 's' to skip item or 'q' to quit > "

@@ -58,7 +58,28 @@ class Conductor:
 
     def review(self, n):
         print("Reviewing {} items".format(n))
+        items = core.review_filter_items(self.persister.get_items(), get_time())
+        reviewed = 0
 
+        while reviewed < n:
+            curr = next(items)
+
+            while True:
+                print('\n'+core.list_display_item(curr)+'\n')
+                inp = input(core.review_item_prompt())
+
+                if inp in 'qs012345':
+                    break
+                else:
+                    print("\nInvalid input")
+
+            if inp == 'q':
+                break
+            elif inp == 's':
+                continue
+            else:
+                new_item = core.assess_item(curr, int(inp))
+                print(new_item)
 
 
 if __name__ == '__main__':
