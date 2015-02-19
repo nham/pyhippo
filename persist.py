@@ -37,6 +37,13 @@ class Persister:
         self.cur.execute(sql, (desc, item_id))
         self.conn.commit()
 
+    # for changing iri/int_step/ff/last_reviewed
+    def update_item(self, item):
+        sql = """UPDATE items SET last_reviewed=?, iri=?, int_step=?, ff=? WHERE id=?"""
+        self.cur.execute(sql, (item['last_reviewed'], item['iri'],
+                               item['int_step'], item['ff'], item['id'])) 
+        self.conn.commit()
+
     def remove_item(self, item_id):
         sql = """DELETE FROM items WHERE id=?"""
         self.cur.execute(sql, (item_id,))

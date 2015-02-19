@@ -19,16 +19,6 @@ import time
 from persist import Persister
 import core
 
-# the "get me n items for review" command uses a spaced repetition scheduler
-# based (loosely) on the SM-2 algorithm
-
-# the scheduler should do something like:
-#  - look at all items' "last reviewed" dates (specifically time delta between now and then)
-#  - compare with the IRI
-#  - determine a) how many are ready for review, and b) order them by "most overdue"
-# I think it (the backend function) should emit a generator for item ids, actually.
-# there should be another function that calls it and handles user interaction and skipping
-
 
 def get_time():
     return round(time.time())
@@ -79,7 +69,8 @@ class Conductor:
                 continue
             else:
                 new_item = core.assess_item(curr, int(inp))
-                print(new_item)
+                new_item['last_reviewed'] = get_time()
+                self.persister.update_item(new_item)
 
 
 if __name__ == '__main__':
